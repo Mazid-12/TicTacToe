@@ -23,7 +23,7 @@ def check_win(dict):
     
 def play_round(dict, player):
     #for player in ['X', 'O']:
-    player_choice = input(f'Player {player} Enter your choice: ')
+    player_choice = input(f'Player {player} Enter your choice (1-9): ')
     new_dict = place_piece(player, dict, player_choice)
     get_board(new_dict)
     dict = new_dict
@@ -35,21 +35,32 @@ def continue_play(dict):
     #print(type(dict[1]))
     win = check_win(dict)
     #print(win)
-    while win == False:
+    #while win == False:
+    for round in range(3):
         for player in ['X', 'O']:
             new_dict = play_round(dict, player)
-            print(new_dict)
-        win = check_win(new_dict)
+            #print(new_dict)
+            win = check_win(new_dict)
+            if win == True:
+                return f'Player {player}, you win!'
+    return "You guys have played all your markers. time to move them!"
         #print(win)
 
-    else:
-        print('You win!')
+    #else:
+     #   return 'You win!'
     
-continue_play(dict)
+print(continue_play(dict))
         
 '''def pos(val1, val2):
     if val1 == val2 != ' ' or val1 == 4 != ' ':
         return True
 res = pos(4, 4)
 print(res)'''
+
+
+'''def play_session(dic):
+    #for i in range(3):
+        continue_play(dic)
+
+play_session(dict)'''
     
