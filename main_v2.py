@@ -20,3 +20,25 @@ def validate_input(dict, player_input):
             return False
     except ValueError:
         return False
+def main():
+    board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
+    input("Press ENTER to start the game.")
+
+    for round in range(3):
+        for player in ['O', 'X']:
+            while True:
+                player_choice = int(input(f'Player {player} Enter your choice (1-9): '))
+                is_valid = validate_input(player_choice)
+                if not is_valid:
+                    ('The input is invalid!')
+                if board_dictionary[player_choice] == ' ':
+                    board_dictionary[player_choice] = player
+                    print_board(board_dictionary)
+                    has_won = check_win(board_dictionary)
+                    if has_won:
+                        return f'Game Over! Player {player} won!'
+        else:
+            return "It's a draw"
+    
+                    
+
