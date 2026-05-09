@@ -49,6 +49,8 @@ def continue_play(dict):
                 win = check_win(new_dict)
                 if win == True:
                     return f'Player {player}, you win!'
+        else:
+            return 'This is a draw!'
                 
 def move_marker(dict, player):
     while True:
