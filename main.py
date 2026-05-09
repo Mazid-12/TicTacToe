@@ -1,5 +1,3 @@
-dict = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
-
 def get_board(dict):  
     print(f" {dict[1]} | {dict[2]} | {dict[3]}")
     print("---+---+---")
@@ -34,18 +32,18 @@ def play_round(dict, player):
             print('Only integer allowed!') 
             
 def continue_play(dict):
+    get_board(dict)
     win = check_win(dict)
     for round in range(3):
         for player in ['X', 'O']:
             new_dict = play_round(dict, player)
             #print(new_dict)
             win = check_win(new_dict)
-            print(win)
             if win == True:
                 return f'Player {player}, you win!'
     else:          
         print('ok, time to move markers!')
-        for round in range(10):
+        for round in range(5):
             for player in ['X', 'O']:
                 new_dict = move_marker(dict, player)
                 win = check_win(new_dict)
@@ -71,5 +69,20 @@ def move_marker(dict, player):
                 print('Only integers from 1 to 9')
         except ValueError:
             print ('Only integers allowed!')
-            
-print(continue_play(dict))
+
+def main():
+    while True:
+        dict = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
+
+        starting = input('===Press ENTER to start === ')
+        if starting == '':
+            print(continue_play(dict))
+            ending = input('Do you want to continue? (O/N): ')
+            if ending.lower() == 'o':
+                
+                continue
+            else:
+                print('Thank you for playing!')
+                break 
+
+main()
