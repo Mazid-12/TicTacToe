@@ -28,7 +28,14 @@ def place_marker(dict, player, choice):
     else:
         return False
     
-
+def move_marker(dict, player, old_spot, new_spot):
+    if dict[new_spot] == ' ':
+        dict[old_spot] = ' '
+        dict[new_spot] = player
+        return dict
+    else:
+        return False
+    
 def main():
         board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
         print_board(board_dictionary)
@@ -63,9 +70,8 @@ def main():
                         if board_dictionary[old_spot] != player:
                             print('The old spot is occupied by your opponent or empty')
                             continue
-                        if board_dictionary[new_spot] == ' ':
-                            board_dictionary[old_spot] = ' '
-                            board_dictionary[new_spot] = player
+                        new_dictionary = move_marker(board_dictionary, player, old_spot, new_spot)
+                        if new_dictionary != False:
                             print_board(board_dictionary)
                             has_won = check_win(board_dictionary)
                             if has_won:
