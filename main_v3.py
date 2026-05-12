@@ -10,7 +10,7 @@ def check_win(dict):
         return True
     else:
         return False
-    
+
 def validate_input(player_input):
     try:
         input = int(player_input)
@@ -20,6 +20,14 @@ def validate_input(player_input):
             return False
     except ValueError:
         return False
+
+def place_marker(dict, player, choice):
+    if dict[int(choice)] == ' ':
+        dict[int(choice)] = player
+        return dict
+    else:
+        return False
+    
 
 def main():
         board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
@@ -32,15 +40,15 @@ def main():
                     if not is_valid:
                         print('The input is invalid!')
                         continue
-                    if board_dictionary[int(player_choice)] == ' ':
-                        board_dictionary[int(player_choice)] = player
-                        print_board(board_dictionary)
-                        has_won = check_win(board_dictionary)
+                    new_dictionary = place_marker(board_dictionary, player, player_choice)
+                    if new_dictionary != False:
+                        print_board(new_dictionary)
+                        has_won = check_win(new_dictionary)
                         if has_won:
                             return f'Game Over! Player {player} won!'
                         break
                     else:
-                        print('This spot is occupied!')                   
+                       print('This spot is occupied!')                   
         else:          
             for round in range(3):
                 for player in ['X', 'O']:
