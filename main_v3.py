@@ -1,4 +1,6 @@
 import random
+import time 
+
 def print_board(dict):  
     print(f" {dict[1]} | {dict[2]} | {dict[3]}")
     print("---+---+---")
@@ -52,11 +54,16 @@ def main():
         for round in range(3):
             for player in ['X', 'O']:
                 while True:
-                    player_choice = input(f'Player {player} Enter your choice (1-9): ')
-                    is_valid = validate_input(player_choice)
-                    if not is_valid:
-                        print('The input is invalid!')
-                        continue
+                    if player == 'X':
+                        player_choice = input(f'Player {player} Enter your choice (1-9): ')
+                        is_valid = validate_input(player_choice)
+                        if not is_valid:
+                            print('The input is invalid!')
+                            continue
+                    elif player == 'O':
+                        print('Your Opponent is thinking...')
+                        time.sleep(3)
+                        player_choice = play_ai(board_dictionary)
                     new_dictionary = place_marker(board_dictionary, player, player_choice)
                     if new_dictionary != False:
                         print_board(new_dictionary)

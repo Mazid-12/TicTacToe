@@ -1,5 +1,3 @@
-import random
-
 def print_board(dict):  
     print(f" {dict[1]} | {dict[2]} | {dict[3]}")
     print("---+---+---")
