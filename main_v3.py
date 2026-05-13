@@ -1,3 +1,4 @@
+import random
 def print_board(dict):  
     print(f" {dict[1]} | {dict[2]} | {dict[3]}")
     print("---+---+---")
@@ -35,6 +36,15 @@ def move_marker(dict, player, old_spot, new_spot):
         return dict
     else:
         return False
+    
+
+def play_ai(dict):
+    choice_list = []
+    for key in dict:
+        if dict[key] == ' ':
+            choice_list.append(key)
+    choice = random.choice(choice_list)
+    return choice
     
 def main():
         board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}

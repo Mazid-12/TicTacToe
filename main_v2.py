@@ -1,3 +1,5 @@
+import random
+
 def print_board(dict):  
     print(f" {dict[1]} | {dict[2]} | {dict[3]}")
     print("---+---+---")
@@ -20,6 +22,7 @@ def validate_input(player_input):
             return False
     except ValueError:
         return False
+
 
 def main():
         board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
@@ -75,3 +78,10 @@ while True:
     restart = input('Do you want to play again (0 to leave): ')
     if restart == '0':
         break
+
+
+
+
+
+
+    dd
