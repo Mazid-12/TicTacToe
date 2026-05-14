@@ -38,7 +38,6 @@ def move_marker(dict, player, old_spot, new_spot):
         return dict
     else:
         return False
-    
 
 def play_ai(dict):
     choice_list = []
@@ -47,7 +46,19 @@ def play_ai(dict):
             choice_list.append(key)
     choice = random.choice(choice_list)
     return choice
-    
+
+def move_ai(dict, player):
+    old_list = []
+    new_list = []
+    for key in dict:
+        if dict[key] == player:
+            old_list.append(key)
+        if dict[key] == ' ':
+            new_list.append(key)
+    old_spot = random.choice(old_list)
+    new_spot = random.choice(new_list)
+    return old_spot, new_spot
+
 def main():
         board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
         print_board(board_dictionary)
@@ -77,16 +88,23 @@ def main():
             for round in range(3):
                 for player in ['X', 'O']:
                     while True:
-                        old_spot = int(input(f'Player {player} Where is the marker you want to move: '))
-                        new_spot = int(input(f'Player {player} Where do you want to move it to: '))
-                        old_isvalid = validate_input(old_spot)
-                        new_isvalid = validate_input(new_spot)
-                        if not old_isvalid and not new_isvalid:
-                            print('The input is invalid!')
-                            continue
-                        if board_dictionary[old_spot] != player:
-                            print('The old spot is occupied by your opponent or empty')
-                            continue
+                        if player == 'X':
+                            old_spot = int(input(f'Player {player} Where is the marker you want to move: '))
+                            new_spot = int(input(f'Player {player} Where do you want to move it to: '))
+                            old_isvalid = validate_input(old_spot)
+                            new_isvalid = validate_input(new_spot)
+                            if not old_isvalid and not new_isvalid:
+                                print('The input is invalid!')
+                                continue
+                            if board_dictionary[old_spot] != player:
+                                print('The old spot is occupied by your opponent or empty')
+                                continue
+                        elif player == 'O':
+                            print('Your opponent is thinking...')
+                            time.sleep(3)
+                            choices = move_ai(board_dictionary, player)
+                            old_spot = choices[0]
+                            new_spot = choices[1]
                         new_dictionary = move_marker(board_dictionary, player, old_spot, new_spot)
                         if new_dictionary != False:
                             print_board(board_dictionary)
