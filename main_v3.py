@@ -8,8 +8,9 @@ def print_board(dict):
     print("---+---+---")
     print(f" {dict[7]} | {dict[8]} | {dict[9]}")
 
-def check_win(dict):
-    if dict[1] == dict[2] == dict[3] != ' ' or dict[1] == dict[4] == dict[7] != ' ' or dict[1] == dict[5] == dict[9]!= ' ' or dict[3] == dict[5] == dict[7] != ' ' or dict[7] == dict[8] == dict[9] != ' ' or dict[3] == dict[6] == dict[9] != ' ' or dict[4] == dict[5] == dict[6] != ' ' or dict[2] == dict[5] == dict[8] != ' ':
+def check_win(set):
+    win_combo = [{1, 2, 3}, {1, 4, 7}, {1, 5, 9}, {3, 5, 7}, {2, 5, 8}, {3, 6, 9}, {4, 5, 6}, {7, 8, 9}]
+    if set in win_combo:
         return True
     else:
         return False
@@ -39,13 +40,18 @@ def move_marker(dict, player, old_spot, new_spot):
     else:
         return False
 
-def play_ai(dict):
-    choice_list = []
-    for key in dict:
-        if dict[key] == ' ':
-            choice_list.append(key)
-    choice = random.choice(choice_list)
-    return choice
+def play_ai(dict, set):
+    first_choice = forsee_win(dict, set)
+    print(first_choice)
+    if first_choice == False:
+        choice_list = []
+        for key in dict:
+            if dict[key] == ' ':
+                choice_list.append(key)
+        choice = random.choice(choice_list)
+        return choice
+    else:
+        return first_choice
 
 def move_ai(dict, player):
     old_list = []
@@ -59,8 +65,25 @@ def move_ai(dict, player):
     new_spot = random.choice(new_list)
     return old_spot, new_spot
 
+def forsee_win(dict, set1):
+    win_combo = [{1, 2, 3}, {1, 4, 7}, {1, 5, 9}, {3, 5, 7}, {2, 5, 8}, {3, 6, 9}, {4, 5, 6}, {7, 8, 9}]
+    for sets in win_combo:
+        common = sets.intersection(set1)
+        if len(common) == 2:
+            unique_set = sets - common
+            spot = int(unique_set.pop())
+            if dict[spot] == ' ':
+                return spot
+            else:
+                continue
+        else:
+            continue
+    return False
+
 def main():
         board_dictionary = {1:' ', 2:' ', 3:' ', 4:' ', 5:' ', 6:' ', 7:' ', 8:' ', 9:' '}
+        marker_placeX = set()
+        marker_placeY = set()
         print_board(board_dictionary)
         for round in range(3):
             for player in ['X', 'O']:
@@ -71,19 +94,23 @@ def main():
                         if not is_valid:
                             print('The input is invalid!')
                             continue
+                        marker_placeX.add(int(player_choice))
+                        has_won = check_win(marker_placeX)
                     elif player == 'O':
                         print('Your Opponent is thinking...')
                         time.sleep(3)
-                        player_choice = play_ai(board_dictionary)
+                        player_choice = play_ai(board_dictionary, marker_placeX)
+                        marker_placeY.add(player_choice)
+                        has_won = check_win(marker_placeY)
                     new_dictionary = place_marker(board_dictionary, player, player_choice)
                     if new_dictionary != False:
                         print_board(new_dictionary)
-                        has_won = check_win(new_dictionary)
                         if has_won:
-                            return f'Game Over! Player {player} won!'
-                        break
+                                return f'Game Over! Player {player} won!'
+                        break  
                     else:
-                       print('This spot is occupied!')                   
+                        print("The input is invalid")
+                                 
         else:          
             for round in range(3):
                 for player in ['X', 'O']:
@@ -93,6 +120,9 @@ def main():
                             new_spot = int(input(f'Player {player} Where do you want to move it to: '))
                             old_isvalid = validate_input(old_spot)
                             new_isvalid = validate_input(new_spot)
+                            marker_placeX.remove(int(old_spot))
+                            marker_placeX.add(int(new_spot))
+                            has_won = check_win(marker_placeX)
                             if not old_isvalid and not new_isvalid:
                                 print('The input is invalid!')
                                 continue
@@ -105,10 +135,12 @@ def main():
                             choices = move_ai(board_dictionary, player)
                             old_spot = choices[0]
                             new_spot = choices[1]
+                            marker_placeY.remove(old_spot)
+                            marker_placeY.add(new_spot)
+                            has_won = check_win(marker_placeY)
                         new_dictionary = move_marker(board_dictionary, player, old_spot, new_spot)
                         if new_dictionary != False:
                             print_board(board_dictionary)
-                            has_won = check_win(board_dictionary)
                             if has_won:
                                 return f'Game Over! Player {player} won!'        
                             break      
