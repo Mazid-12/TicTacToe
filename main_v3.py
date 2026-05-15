@@ -40,18 +40,22 @@ def move_marker(dict, player, old_spot, new_spot):
     else:
         return False
 
-def play_ai(dict, set):
-    first_choice = forsee_win(dict, set)
+def play_ai(dict, setO, setAI):
+    first_choice = forsee_win(dict, setO)
+    second_choice = forsee_win(dict, setAI)
     print(first_choice)
-    if first_choice == False:
+    print(second_choice)
+    if first_choice != False:
+        return first_choice
+    if second_choice != False:
+        return second_choice
+    else:
         choice_list = []
         for key in dict:
             if dict[key] == ' ':
                 choice_list.append(key)
         choice = random.choice(choice_list)
         return choice
-    else:
-        return first_choice
 
 def move_ai(dict, player):
     old_list = []
@@ -99,7 +103,7 @@ def main():
                     elif player == 'O':
                         print('Your Opponent is thinking...')
                         time.sleep(3)
-                        player_choice = play_ai(board_dictionary, marker_placeX)
+                        player_choice = play_ai(board_dictionary, marker_placeX, marker_placeY)
                         marker_placeY.add(player_choice)
                         has_won = check_win(marker_placeY)
                     new_dictionary = place_marker(board_dictionary, player, player_choice)
