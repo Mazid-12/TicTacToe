@@ -75,25 +75,26 @@ def main():
                 for player in ['X', 'O']:
                     while True:
                         if player == 'X':
-                            old_spot = int(input(f'Player {player} Where is the marker you want to move: '))
-                            new_spot = int(input(f'Player {player} Where do you want to move it to: '))
+                            old_spot = input(f'Player {player} Where is the marker you want to move: ')
+                            new_spot = input(f'Player {player} Where do you want to move it to: ')
                             old_isvalid = validate_input(old_spot)
                             new_isvalid = validate_input(new_spot)
-                            print(int(old_spot))
-                              
-                            marker_placeX.remove(int(old_spot))
-                            marker_placeX.add(int(new_spot))
-                            has_won = check_win(marker_placeX)
-                            if not old_isvalid and not new_isvalid:
+                            if not old_isvalid or not new_isvalid:
                                 print('The input is invalid!')
                                 continue
+                            old_spot = int(old_spot)
+                            new_spot = int(new_spot)
                             if board_dictionary[old_spot] != player:
                                 print('The old spot is occupied by your opponent or empty')
                                 continue
+                            marker_placeX.remove(old_spot)
+                            marker_placeX.add(new_spot)
+                            has_won = check_win(marker_placeX)
+
                         elif player == 'O':
                             print('Your opponent is thinking...')
                             time.sleep(3)
-                            choices = ai_player.move_ai(board_dictionary, player)
+                            choices = ai_player.move_ai(board_dictionary, player, marker_placeX, marker_placeY)
                             old_spot = choices[0]
                             new_spot = choices[1]
                             marker_placeY.remove(old_spot)
