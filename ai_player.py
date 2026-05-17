@@ -20,21 +20,22 @@ def play_ai(dict, setX, setAI):
 def move_ai(dict, player, setX, setAI):
     old_list = []
     gap_spots = create_gap(dict, setX, player)
-    print(gap_spots)
+    #print(gap_spots)
     for key in dict:
         if dict[key] == player:
             old_list.append(key)
-    new_spot = play_ai(dict, setX, setAI)    
     if gap_spots != False:
         for spot in gap_spots:
             old_list.remove(spot)
-        print(old_list)
+        #print(old_list)
+        
         old_spot = random.choice(old_list)
     else:
         old_spot = random.choice(old_list)
 
+    new_spot = play_ai(dict, setX, setAI)
     return old_spot, new_spot
-
+    
 def forsee_win(dict, set1):
     win_combo = [{1, 2, 3}, {1, 4, 7}, {1, 5, 9}, {3, 5, 7}, {2, 5, 8}, {3, 6, 9}, {4, 5, 6}, {7, 8, 9}]
     for sets in win_combo:
@@ -57,7 +58,7 @@ def create_gap(dict, setX, player):
         common_set = win_set.intersection(setX)
         if len(common_set) == 2:
             for spot in common_set:
-                print(spot)
+                #print(spot)
                 win_set.remove(spot)
             danger_spot = win_set.pop()
             if dict[danger_spot] == player:

@@ -71,7 +71,7 @@ def main():
                     else:
                         print("The input is invalid")                 
         else:          
-            for round in range(3):
+            for round in range(5):
                 for player in ['X', 'O']:
                     while True:
                         if player == 'X':
